@@ -109,11 +109,6 @@ category: html
 AI 面板通过 `POST /chat` 与后端通信，请求体 `{ message: string }`，响应 `{ reply: string, success: boolean }`。
 
 - **本地开发**：默认请求 `http://localhost:8000/chat`，需自行启动后端
-- **生产部署**：详见 [DEPLOY.md](./DEPLOY.md)
-
-## 部署
-
-参见 [DEPLOY.md](./DEPLOY.md)，包含构建、环境变量、Nginx 配置及后端要求说明。
 
 ## 脚本说明
 
