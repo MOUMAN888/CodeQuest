@@ -1,0 +1,31 @@
+/* CodeQuest 主题变量 - 与 index2.html 一致 */
+:root {
+  --bg: #0a0a0c;
+  --card: rgba(20, 20, 25, 0.7);
+  --text: #e2e8f0;
+  --text-dim: #94a3b8;
+  --accent: #10b981;
+  --border: rgba(255, 255, 255, 0.1);
+  --sidebar: #111114;
+  --rain-color: #0F0;
+  --rain-opacity: 0.15;
+  --ans-area-bg: rgba(0, 0, 0, 0.2);
+  --q-item-active-bg: rgba(16, 185, 129, 0.12);
+}
+
+[data-theme="light"] {
+  --bg: #f8fafc;
+  --card: rgba(255, 255, 255, 0.8);
+  --text: #1e293b;
+  --text-dim: #64748b;
+  --accent: #3b82f6;
+  --border: rgba(0, 0, 0, 0.1);
+  --sidebar: #ffffff;
+  /* 亮色下代码雨采用更深的蓝色并降低透明度，避免刺眼 */ 
+  --rain-color: #1e3a8a;
+  --rain-opacity: 0.2;
+  /* 解题区域：淡蓝色底，与 accent 协调 */
+  --ans-area-bg: rgba(59, 130, 246, 0.06);
+  /* 侧边栏选中项背景（亮色用蓝色） */
+  --q-item-active-bg: rgba(59, 130, 246, 0.12);
+}
