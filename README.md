@@ -7,7 +7,7 @@
 
 你可以通过以下链接访问 Manji 应用的在线预览：
 
-[Manji 预览地址](http://your-preview-url.com)
+[CodeQuest预览地址](http://code.mouman.top)
 
 > 注：此预览地址仅供演示，可能会有数据更新延迟或功能限制。
 
