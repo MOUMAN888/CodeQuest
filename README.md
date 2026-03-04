@@ -2,6 +2,16 @@
 
 解构代码逻辑，重塑思维边界 —— 面向前端开发的面试刷题应用。
 
+
+## 🌐 预览地址
+
+你可以通过以下链接访问 Manji 应用的在线预览：
+
+[CodeQuest预览地址](http://code.mouman.top)
+
+> 注：此预览地址仅供演示，可能会有数据更新延迟或功能限制。
+
+
 ## 功能特性
 
 - **分类刷题**：HTML、CSS、JavaScript、Vue、React 等分类，按 Markdown 题目文件组织
@@ -109,11 +119,6 @@ category: html
 AI 面板通过 `POST /chat` 与后端通信，请求体 `{ message: string }`，响应 `{ reply: string, success: boolean }`。
 
 - **本地开发**：默认请求 `http://localhost:8000/chat`，需自行启动后端
-- **生产部署**：详见 [DEPLOY.md](./DEPLOY.md)
-
-## 部署
-
-参见 [DEPLOY.md](./DEPLOY.md)，包含构建、环境变量、Nginx 配置及后端要求说明。
 
 ## 脚本说明
 
