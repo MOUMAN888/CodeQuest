@@ -1,10 +1,12 @@
 <script setup lang="ts">
 import { computed } from 'vue'
+import { useRouter } from 'vue-router'
 import { useThemeStore } from '@/stores/theme'
 import { useUIStore } from '@/stores/ui'
 
 const themeStore = useThemeStore()
 const ui = useUIStore()
+const router = useRouter()
 
 const themeIcon = computed(() =>
   themeStore.theme === 'dark' ? '🌙' : '☀️'
@@ -16,6 +18,10 @@ function toggleTheme() {
 
 function toggleAI() {
   ui.toggleAiPanel()
+}
+
+function goFavorites() {
+  router.push({ name: 'favorites' })
 }
 </script>
 
@@ -35,7 +41,15 @@ function toggleAI() {
       title="AI 助手"
       @click="toggleAI"
     >
-    <span class="ai-icon" aria-hidden="true">🤖</span>
+      <span class="ai-icon" aria-hidden="true">🤖</span>
+    </button>
+    <button
+      class="control-btn"
+      type="button"
+      title="收藏夹"
+      @click="goFavorites"
+    >
+      <span aria-hidden="true">★</span>
     </button>
   </div>
 </template>

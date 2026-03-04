@@ -18,7 +18,8 @@ type FrontMatter = {
 }
 
 const modules = import.meta.glob('../content/questions/**/*.md', {
-  as: 'raw',
+  query: '?raw',
+  import: 'default',
   eager: true,
 }) as Record<string, string>
 
@@ -109,7 +110,7 @@ for (const q of allQuestions) {
   questionsByCategory[key].push(q)
 }
 
-const categoryKeys = Object.keys(questionsByCategory).sort()
+
 
 export function getQuestionsByCategory(category: string): Question[] {
   const key = category.toLowerCase()
@@ -139,6 +140,11 @@ const CATEGORY_CONFIG: Partial<Record<string, Omit<CategoryMeta, 'key'>>> = {
     description: 'Event Loop、闭包、原型链',
     iconClass: 'fab fa-js-square card-icon card-icon--js',
   },
+  es6: {
+    label: 'ES6 & 语法进阶',
+    description: '箭头函数、Promise、模块化',
+    iconClass: 'fab fa-node-js card-icon',
+  },
   vue: {
     label: 'Vue 技巧',
     description: '响应式、组件、路由',
@@ -149,7 +155,60 @@ const CATEGORY_CONFIG: Partial<Record<string, Omit<CategoryMeta, 'key'>>> = {
     description: 'VDOM、Hooks、状态管理',
     iconClass: 'fab fa-react card-icon card-icon--react',
   },
+  network: {
+    label: '计算机网络 & HTTP',
+    description: 'HTTP、TCP、实时通信',
+    iconClass: 'fab fa-chrome card-icon',
+  },
+  engineering: {
+    label: '工程化与构建工具',
+    description: 'Webpack、Vite、Git 工作流',
+    iconClass: 'fab fa-git-alt card-icon',
+  },
+  performance: {
+    label: '性能优化',
+    description: 'Web Vitals、渲染与长任务优化',
+    iconClass: 'fab fa-google card-icon',
+  },
+  scenario: {
+    label: '场景题 & 业务设计',
+    description: '系统设计、业务场景与实践',
+    iconClass: 'fab fa-stack-overflow card-icon',
+  },
+  algorithm: {
+    label: '手写题 & 算法题',
+    description: '手写实现、数据结构与算法',
+    iconClass: 'fab fa-python card-icon',
+  },
+  other: {
+    label: '其他高频问题',
+    description: 'TS、调试、框架对比与安全',
+    iconClass: 'fab fa-galactic-republic card-icon',
+  },
 }
+const configOrder = Object.keys(CATEGORY_CONFIG)
+const categoryKeys = [
+  ...configOrder.filter((key) => questionsByCategory[key]),
+  ...Object.keys(questionsByCategory).filter(
+    (key) => !configOrder.includes(key)
+  ),
+]
+
+const CATEGORY_ORDER = [
+  'html',
+  'css',
+  'js',
+  'es6',
+  'vue',
+  'react',
+  'network',
+  'engineering',
+  'performance',
+  'scenario',
+  'algorithm',
+  'other',
+  'misc',
+]
 
 export function getAllCategories(): CategoryMeta[] {
   return categoryKeys.map((key) => {

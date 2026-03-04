@@ -42,7 +42,7 @@ function start(category: string) {
 
 <style scoped>
 .home-view {
-  min-height: 100vh;
+  min-height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;

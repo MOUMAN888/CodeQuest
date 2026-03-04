@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import type { RouteRecordRaw } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
+import FavoritesView from '../views/FavoritesView.vue'
 
 const routes: RouteRecordRaw[] = [
   {
@@ -15,6 +16,12 @@ const routes: RouteRecordRaw[] = [
     component: () => import('../views/QuizView.vue'),
     meta: { title: '刷题', layout: 'quiz' },
     props: true,
+  },
+  {
+    path: '/favorites',
+    name: 'favorites',
+    component: FavoritesView,
+    meta: { title: '收藏夹', layout: 'full' },
   },
   {
     path: '/:pathMatch(.*)*',

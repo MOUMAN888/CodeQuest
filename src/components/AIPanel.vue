@@ -50,6 +50,7 @@ type ChatMessage =
   | { type: 'loading' }
 
 const chatBoxRef = ref<HTMLDivElement | null>(null)
+const chatInputRef = ref<HTMLTextAreaElement | null>(null)
 const inputValue = ref('')
 const loading = ref(false)
 const messages = ref<ChatMessage[]>([
@@ -69,6 +70,8 @@ function stopTypingEffect() {
     typingTimer = null
   }
 }
+
+
 
 function runTypingEffect() {
   stopTypingEffect()
@@ -104,6 +107,15 @@ function scrollToBottom() {
   })
 }
 
+function autoResizeInput() {
+  nextTick(() => {
+    const el = chatInputRef.value
+    if (!el) return
+    el.style.height = 'auto'
+    el.style.height = `${el.scrollHeight}px`
+  })
+}
+
 function addMessage(msg: ChatMessage) {
   messages.value.push(msg)
   scrollToBottom()
@@ -133,6 +145,7 @@ async function send() {
   if (!text || loading.value) return
 
   inputValue.value = ''
+  ui.clearAiPrefill()
   addMessage({ type: 'user', text })
   addMessage({ type: 'loading' })
   loading.value = true
@@ -187,12 +200,42 @@ onUnmounted(() => {
 watch(
   () => ui.aiPanelVisible,
   (visible) => {
-    if (visible) scrollToBottom()
+    if (visible) {
+      if (ui.aiPrefill) {
+        inputValue.value = ui.aiPrefill
+      }
+      autoResizeInput()
+      scrollToBottom()
+    }
+  }
+)
+
+watch(
+  () => ui.aiPrefill,
+  (val) => {
+    if (ui.aiPanelVisible && typeof val === 'string') {
+      inputValue.value = val
+      autoResizeInput()
+    }
+  }
+)
+
+watch(
+  () => inputValue.value,
+  () => {
+    autoResizeInput()
   }
 )
 </script>
 
 <template>
+  <!-- 点击遮罩关闭（仅在面板可见时渲染） -->
+  <div
+    v-if="ui.aiPanelVisible"
+    class="ai-panel-overlay"
+    @click="close"
+  />
+
   <div
     class="ai-panel"
     :class="{ active: ui.aiPanelVisible, resizing: isResizing }"
@@ -205,9 +248,9 @@ watch(
       v-if="ui.aiPanelVisible"
       class="resize-handle"
       title="拖动调整宽度"
-      @mousedown="onResizeStart"
+      @mousedown.stop="onResizeStart"
     />
-    <div class="ai-panel-inner">
+    <div class="ai-panel-inner" @click.stop>
     <div class="ai-panel-header">
       <h3>
         <span class="ai-icon" aria-hidden="true">🤖</span>
@@ -247,13 +290,14 @@ watch(
     </div>
 
     <div class="chat-input-wrap">
-      <input
+      <textarea
+        ref="chatInputRef"
         v-model="inputValue"
-        type="text"
         placeholder="输入问题..."
         class="chat-input"
         :disabled="loading"
         @keydown="handleKeydown"
+        rows="1"
       />
       <button
         type="button"
@@ -270,6 +314,13 @@ watch(
 </template>
 
 <style scoped>
+.ai-panel-overlay {
+  position: fixed;
+  inset: 0;
+  background: transparent;
+  z-index: 1190;
+}
+
 .ai-panel {
   position: fixed;
   right: -400px;
@@ -550,12 +601,32 @@ watch(
 
 .chat-input {
   flex: 1;
-  padding: 12px 14px;
+  padding: 10px 14px;
   border-radius: 10px;
   border: 1px solid var(--border);
   background: rgba(0, 0, 0, 0.1);
   color: var(--text);
   outline: none;
+  resize: none;
+  max-height: 120px;
+  line-height: 1.5;
+  font-family: inherit;
+  font-size: 0.9rem;
+  scrollbar-width: thin; /* Firefox */
+  scrollbar-color: var(--border) transparent;
+}
+
+.chat-input::-webkit-scrollbar {
+  width: 6px;
+}
+
+.chat-input::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.chat-input::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 999px;
 }
 
 .chat-input:focus {

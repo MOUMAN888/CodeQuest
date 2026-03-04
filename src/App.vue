@@ -16,6 +16,15 @@ useThemeStore()
 
 <style scoped>
 .app-wrap {
-  min-height: 100vh;
+  height: 100vh;
+  overflow-y: auto;
+  /* 隐藏页面整体滚动条 */
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE/Edge */
+}
+
+.app-wrap::-webkit-scrollbar {
+  width: 0;
+  height: 0;
 }
 </style>
